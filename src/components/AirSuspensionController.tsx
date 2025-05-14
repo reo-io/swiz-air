@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect } from "react";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import ControllerTabs from "./ControllerTabs";
 import PresetSelector from "./PresetSelector";
 import CornerControl from "./CornerControl";
 import PressureGauge from "./PressureGauge";
-import { Settings, Menu } from "lucide-react";
+import { Settings, Menu } from "lucide-react-native";
 
 const AirSuspensionController: React.FC = () => {
   const [activeTab, setActiveTab] = useState("presets");
@@ -56,28 +57,32 @@ const AirSuspensionController: React.FC = () => {
   };
 
   return (
-    <div className="bg-black text-white w-full max-w-md mx-auto h-full min-h-[600px] flex flex-col p-4">
+    <View style={styles.container}>
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="w-8"></div> {/* Spacer for alignment */}
+      <View style={styles.header}>
+        <View style={styles.spacer}></View>
         <ControllerTabs activeTab={activeTab} onTabChange={setActiveTab} />
-        <div className="flex gap-4">
-          <Settings className="text-suspension-gray cursor-pointer hover:text-white transition-colors" size={24} />
-          <Menu className="text-suspension-yellow cursor-pointer hover:text-white transition-colors" size={24} />
-        </div>
-      </div>
+        <View style={styles.iconContainer}>
+          <TouchableOpacity style={styles.iconButton}>
+            <Settings color="#999999" size={24} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton}>
+            <Menu color="#FFD700" size={24} />
+          </TouchableOpacity>
+        </View>
+      </View>
       
       {/* Main content */}
-      <div className="flex flex-1">
+      <View style={styles.content}>
         {/* Left column - presets */}
-        <div className="w-1/4 flex justify-center">
+        <View style={styles.presetsColumn}>
           <PresetSelector activePreset={activePreset} onPresetChange={setActivePreset} />
-        </div>
+        </View>
         
         {/* Right column - controls */}
-        <div className="w-3/4">
+        <View style={styles.controlsColumn}>
           {/* Upper controls (LF / RF) */}
-          <div className="flex justify-between mb-8">
+          <View style={styles.cornerRow}>
             <CornerControl
               label="LF"
               value={cornerValues.lf}
@@ -90,10 +95,10 @@ const AirSuspensionController: React.FC = () => {
               onIncrease={() => handleCornerChange("rf", 0.5)}
               onDecrease={() => handleCornerChange("rf", -0.5)}
             />
-          </div>
+          </View>
           
           {/* Lower controls (LR / RR) */}
-          <div className="flex justify-between">
+          <View style={styles.cornerRow}>
             <CornerControl
               label="LR"
               value={cornerValues.lr}
@@ -106,16 +111,58 @@ const AirSuspensionController: React.FC = () => {
               onIncrease={() => handleCornerChange("rr", 0.5)}
               onDecrease={() => handleCornerChange("rr", -0.5)}
             />
-          </div>
-        </div>
-      </div>
+          </View>
+        </View>
+      </View>
       
       {/* Bottom - tank pressure */}
-      <div className="mt-4">
+      <View style={styles.gaugeContainer}>
         <PressureGauge value={pressure} maxValue={220} />
-      </div>
-    </div>
+      </View>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#000000",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 24,
+  },
+  spacer: {
+    width: 32,
+  },
+  iconContainer: {
+    flexDirection: "row",
+    gap: 16,
+  },
+  iconButton: {
+    padding: 4,
+  },
+  content: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  presetsColumn: {
+    width: "25%",
+    alignItems: "center",
+  },
+  controlsColumn: {
+    width: "75%",
+  },
+  cornerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 32,
+  },
+  gaugeContainer: {
+    marginTop: 16,
+  },
+});
 
 export default AirSuspensionController;
