@@ -1,11 +1,15 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from "react";
+import AirSuspensionController from "../components/AirSuspensionController";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 p-4">
+      <div className="max-w-md w-full bg-black rounded-2xl overflow-hidden shadow-xl">
+        <AirSuspensionController />
+      </div>
+      <div className="mt-8 text-gray-400 text-sm max-w-md text-center">
+        <p>This is a simulation of an air suspension controller interface. Use the presets or manual controls to adjust your vehicle's suspension height.</p>
       </div>
     </div>
   );
